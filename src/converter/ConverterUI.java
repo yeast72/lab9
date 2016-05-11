@@ -17,20 +17,18 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class ConverterUI extends JFrame {
+public class ConverterUI extends JFrame implements Runnable {
 
 	private JButton convertButton;
 	private UnitConverter unitconverter;
-	private Unit converter;
-
 	private JTextField LeftTextField;
 	private JTextField RightTextField;
-	private JComboBox LeftComboBox;
-	private JComboBox RightComboBox;
+	private JComboBox<Unit> LeftComboBox;
+	private JComboBox<Unit> RightComboBox;
 	private JButton btnClear;
 	private JRadioButton radiobtnLeft;
 	private JRadioButton radiobtnRight;
-	
+
 	public ConverterUI(UnitConverter uc) {
 		this.unitconverter = uc;
 
@@ -39,6 +37,7 @@ public class ConverterUI extends JFrame {
 
 		initComponents();
 	}
+
 	/**
 	 * initialize components in the window
 	 */
@@ -53,8 +52,7 @@ public class ConverterUI extends JFrame {
 		LeftTextField.setColumns(10);
 		LeftTextField.addActionListener(new ConvertButtonListener());
 
-
-		LeftComboBox = new JComboBox(Length.values());
+		LeftComboBox = new JComboBox<Unit>(Length.values());
 		contentPane.add(LeftComboBox);
 
 		JLabel label = new JLabel("=");
@@ -66,8 +64,8 @@ public class ConverterUI extends JFrame {
 		RightTextField.setColumns(10);
 		RightTextField.setEditable(false);
 
-		RightComboBox = new JComboBox(Length.values());
-		
+		RightComboBox = new JComboBox<Unit>(Length.values());
+
 		contentPane.add(RightComboBox);
 
 		convertButton = new JButton("Convert!");
@@ -93,10 +91,12 @@ public class ConverterUI extends JFrame {
 		this.add(contentPaneSount, BorderLayout.SOUTH);
 		this.pack();
 	}
+
 	/**
-	 * LeftRightRadioButtionListener is an ActionListener that performs an action when the button is pressed.
-	 * It set left field text to input text field and set right text field to result text field,
-	 * set another radio button is not selected.
+	 * LeftRightRadioButtionListener is an ActionListener that performs an
+	 * action when the button is pressed. It set left field text to input text
+	 * field and set right text field to result text field, set another radio
+	 * button is not selected.
 	 * 
 	 */
 	class LeftRightRadioButtonListener implements ActionListener {
@@ -106,105 +106,70 @@ public class ConverterUI extends JFrame {
 			radiobtnLeft.setSelected(true);
 			radiobtnRight.setSelected(false);
 		}
-		
+
 	}
+
 	/**
-	 * RightLeftRadionButtonListener is an ActionListener that performs an action when the button is pressed.
-	 * It set right field text to input text field and set left field text to result text field,
-	 * set another radio button is not selected.
+	 * RightLeftRadionButtonListener is an ActionListener that performs an
+	 * action when the button is pressed. It set right field text to input text
+	 * field and set left field text to result text field, set another radio
+	 * button is not selected.
 	 *
 	 */
-	class RightLeftRadioButtonListener implements ActionListener{
+	class RightLeftRadioButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			LeftTextField.setEditable(false);
 			RightTextField.setEditable(true);
 			radiobtnLeft.setSelected(false);
 			radiobtnRight.setSelected(true);
 		}
-		
+
 	}
+
 	/**
-	 * CleatButtonListener is an ActionListener that performs an action when the button is pressed.
-	 * It is an inner class so it can access private attributes of ConverterUI.
-	 * It set text field to empty
+	 * CleatButtonListener is an ActionListener that performs an action when the
+	 * button is pressed. It is an inner class so it can access private
+	 * attributes of ConverterUI. It set text field to empty
 	 */
 	class ClearButtonListener implements ActionListener {
-
-		@Override
 		public void actionPerformed(ActionEvent evt) {
 			RightTextField.setText("");
 			LeftTextField.setText("");
-		}	
+		}
 	}
+
 	/**
-	 * ConvertButtonListener is an ActionListener that performs an action when the button is pressed.
-	 * It is an inner class so it can access private attributes of ConverterUI.
-	 * It reads the text from JTextField, convert the value to a number, unitconverter to convert,
-	 * and write result in other text field.
+	 * ConvertButtonListener is an ActionListener that performs an action when
+	 * the button is pressed. It is an inner class so it can access private
+	 * attributes of ConverterUI. It reads the text from JTextField, convert the
+	 * value to a number, unitconverter to convert, and write result in other
+	 * text field.
 	 */
-	class ConvertButtonListener implements ActionListener, KeyListener {
+	class ConvertButtonListener implements ActionListener {
 		/** The action to perform action when the "convert" button is pressed */
 		public void actionPerformed(ActionEvent evt) {
 			String s = "";
-			if(LeftTextField.isEditable())
+			if (LeftTextField.isEditable())
 				s = LeftTextField.getText().trim();
-			else if(RightTextField.isEditable())
+			else if (RightTextField.isEditable())
 				s = RightTextField.getText().trim();
 			System.out.println("actionPerformed: input= " + s);
 			if (s.length() > 0) {
 				double value = Double.valueOf(s);
 				Length unit1 = (Length) LeftComboBox.getSelectedItem();
 				Length unit2 = (Length) RightComboBox.getSelectedItem();
-				if(LeftTextField.isEditable())
-					RightTextField.setText(String.valueOf(String.format("%.6f", (unitconverter.convert(value,unit1, unit2)))));
-				else if(RightTextField.isEditable())
-					LeftTextField.setText(String.valueOf(String.format("%.6f", (unitconverter.convert(value, unit2, unit1)))));
+				if (LeftTextField.isEditable())
+					RightTextField.setText(String.valueOf(String.format("%.6f",
+							(unitconverter.convert(value, unit1, unit2)))));
+				else if (RightTextField.isEditable())
+					LeftTextField.setText(String.valueOf(String.format("%.6f",
+							(unitconverter.convert(value, unit2, unit1)))));
 			}
-		}
-		/** The action to perform action when press Enter */
-		public void keyPressed(KeyEvent e) {
-			String s = "";
-			if(LeftTextField.isEditable())
-				s = LeftTextField.getText().trim();
-			else if(RightTextField.isEditable())
-				s = RightTextField.getText().trim();
-			System.out.println("actionPerformed: input= " + s);
-			if (s.length() > 0) {
-				double value = Double.valueOf(s);
-				Length unit1 = (Length) LeftComboBox.getSelectedItem();
-				Length unit2 = (Length) RightComboBox.getSelectedItem();
-				if(LeftTextField.isEditable())
-					RightTextField.setText(String.valueOf(String.format("%.6f", (unitconverter.convert(value,unit1, unit2)))));
-				else if(RightTextField.isEditable())
-					LeftTextField.setText(String.valueOf(String.format("%.6f", (unitconverter.convert(value, unit2, unit1)))));
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 	}
 
-	public static void main(String[] args) {
-		UnitConverter uc = new UnitConverter();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ConverterUI frame = new ConverterUI(uc);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
+	@Override
+	public void run() {
+		this.setVisible(true);
 	}
 }
