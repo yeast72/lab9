@@ -1,5 +1,9 @@
 package converter;
-
+/**
+ * This class is unit converter change some unit to other unit.
+ * @author Wisarut Boonnumma
+ *
+ */
 public class UnitConverter {
 	/**
 	 * 

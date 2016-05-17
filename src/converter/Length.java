@@ -1,6 +1,11 @@
 package converter;
 
-/** A definition of common units of length. */
+/**
+ * A definition of common units of length.
+ * 
+ * @author Wisarut Boonnumma
+ * 
+ */
 public enum Length implements Unit {
 	/*
 	 * Define the members of the enumeration The attributes are: name = a string

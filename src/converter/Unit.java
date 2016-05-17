@@ -1,7 +1,7 @@
 package converter;
 
 /**
- * The unit interface for all unit
+ * The unit interface for all unit.
  * 
  * @author Wisarut Boonnumma
  *
