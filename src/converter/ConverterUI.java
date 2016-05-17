@@ -16,8 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
 /**
- *ConverterUI is user interface of unit converter.
+ * ConverterUI is user interface of unit converter.
+ * 
  * @author Wisarut Boonnumma
  *
  */
@@ -32,10 +34,12 @@ public class ConverterUI extends JFrame implements Runnable {
 	private JButton btnClear;
 	private JRadioButton radiobtnLeft;
 	private JRadioButton radiobtnRight;
-/**
- * Constructor of ConverterUI
- * @param uc
- */
+
+	/**
+	 * Constructor of ConverterUI
+	 * 
+	 * @param uc
+	 */
 	public ConverterUI(UnitConverter uc) {
 		this.unitconverter = uc;
 
